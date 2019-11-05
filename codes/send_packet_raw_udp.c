@@ -92,13 +92,7 @@ int main() {
 
    memset(buffer, 0, 1500);
    struct ipheader *ip = (struct ipheader *) buffer;
-   struct udpheader *udp = (struct udpheader *) (packet + sizeof(struct ethheader) + sizeof(struct ipheader));
-  char *msg = malloc(udp->udp_ulen * sizeof(char));
-  msg = packet + sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct udpheader);
-  printf(" Message: %s\n", msg);
-     
-     //(buffer +
-                                          //sizeof(struct ipheader));
+   struct udpheader *udp = (struct udpheader *) (buffer + sizeof(struct ipheader));
 
    /*********************************************************
       Step 1: Fill in the UDP data field.
