@@ -17,12 +17,6 @@ struct udpheader {
   u_int16_t udp_sum;  /* udp checksum */
 };
 
-struct udpheader *udp = (struct udpheader *)
-                        (packet + sizeof(struct ethheader) + sizeof(struct ipheader));
-char *msg = malloc(udp->udp_ulen * sizeof(char));
-msg = packet +  sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct udpheader);
-printf(" Message: %s\n", msg);
-
 /* IP Header */
 struct ipheader {
   unsigned char      iph_ihl:4, //IP header length
@@ -47,6 +41,11 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
   if (ntohs(eth->ether_type) == 0x0800) { // 0x0800 is IP type
     struct ipheader * ip = (struct ipheader *)
                            (packet + sizeof(struct ethheader)); 
+    struct udpheader *udp = (struct udpheader *)
+                        (packet + sizeof(struct ethheader) + sizeof(struct ipheader));
+    char *msg = malloc(udp->udp_ulen * sizeof(char));
+    msg = packet +  sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct udpheader);
+    printf(" Message: %s\n", msg);
 
     printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
     printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
