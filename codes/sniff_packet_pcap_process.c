@@ -10,6 +10,19 @@ struct ethheader {
   u_short ether_type;                  /* IP? ARP? RARP? etc */
 };
 
+struct udpheader {
+  u_int16_t udp_sport;/* source port */
+  u_int16_t udp_dport;/* destination port */
+  u_int16_t udp_ulen; /* udp length */
+  u_int16_t udp_sum;  /* udp checksum */
+};
+
+struct udpheader *udp = (struct udpheader *)
+                        (packet + sizeof(struct ethheader) + sizeof(struct ipheader));
+char *msg = malloc(udp->udp_ulen * sizeof(char));
+msg = packet +  sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct udpheader);
+printf(" Message: %s\n", msg);
+
 /* IP Header */
 struct ipheader {
   unsigned char      iph_ihl:4, //IP header length
